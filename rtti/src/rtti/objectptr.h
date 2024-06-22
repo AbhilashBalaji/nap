@@ -114,7 +114,6 @@ namespace nap
 			 */
 			void resetPointers(const rtti::Object& targetObject)
 			{
-                std::lock_guard<std::mutex> lock(mMutex);
 				for (ObjectPtrBase* ptr : mObjectPointers)
 				{
 					if (ptr->get() == &targetObject)
@@ -128,24 +127,15 @@ namespace nap
 			/**
 			 * Adds a pointer to the manager.
 			 */
-			void add(ObjectPtrBase& ptr)
-            {
-                std::lock_guard<std::mutex> lock(mMutex);
-                mObjectPointers.insert(&ptr);
-            }
+			void add(ObjectPtrBase& ptr)						{ mObjectPointers.insert(&ptr); }
 
 			/**
  			 * Removes a pointer from the manager.
  			 */
-			void remove(ObjectPtrBase& ptr)
-            {
-                std::lock_guard<std::mutex> lock(mMutex);
-                mObjectPointers.erase(&ptr);
-            }
+			void remove(ObjectPtrBase& ptr)						{ mObjectPointers.erase(&ptr); }
 
 			ObjectPtrSet mObjectPointers;					///< Set of all pointers in the manager
-            std::mutex mMutex; ///< Mutex to guard thread safety within the manager
-        };
+		};
 
 		/**
 		 * Acts like a regular pointer. Accessing the pointer does not have different performance characteristics than accessing a regular
@@ -271,7 +261,6 @@ namespace nap
 		template<class OBJECTSBYIDMAP>
 		void ObjectPtrManager::patchPointers(OBJECTSBYIDMAP& newTargetObjects)
 		{
-            std::lock_guard<std::mutex> lock(mMutex);
 			for (ObjectPtrBase* ptr : mObjectPointers)
 			{
 				rtti::Object* target = ptr->get();

@@ -1,0 +1,10 @@
+{
+    "Type": "nap::ModuleInfo", 
+    "mID": "napvban",
+    "DemoApp" : "vbandemo",
+    "RequiredModules": [
+        "napudp",
+        "napaudio"
+    ], 
+    "WindowsDllSearchPaths": []
+}

@@ -28,7 +28,6 @@ test/unittest/Release/unittest.vcxprojResolveAssemblyReference.cache
 *.user
 system_modules/napawesomium/Release/napawesomium.vcxprojResolveAssemblyReference.cache
 system_modules/network/Release/
-modules/
 napkin/Release/
 /msvc32
 /msvc64

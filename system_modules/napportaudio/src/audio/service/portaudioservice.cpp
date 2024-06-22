@@ -402,15 +402,9 @@ namespace nap
 		{
 			return *Pa_GetDeviceInfo(Pa_HostApiDeviceIndexToDeviceIndex(hostApiIndex, deviceIndex));
 		}
-
-
-        const PaDeviceInfo& PortAudioService::getDeviceInfo(unsigned int deviceIndex)
-        {
-            return *Pa_GetDeviceInfo(deviceIndex);
-        }
-
-
-        std::vector<const PaDeviceInfo*> PortAudioService::getDevices(unsigned int hostApiIndex)
+		
+		
+		std::vector<const PaDeviceInfo*> PortAudioService::getDevices(unsigned int hostApiIndex)
 		{
 			std::vector<const PaDeviceInfo*> result;
 			for (auto i = 0; i < getHostApiInfo(hostApiIndex).deviceCount; ++i)
