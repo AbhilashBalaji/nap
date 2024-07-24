@@ -42,10 +42,10 @@ namespace nap
         if (!error.check(mVBANReceiverEntity != nullptr, "unable to find entity with name: %s", "VBANReceiverEntity"))
             return false;
 
-        // Get VBANSender Entity
-        mVBANSenderEntity = mScene->findEntity("VBANSenderEntity");
-        if (!error.check(mVBANSenderEntity != nullptr, "unable to find entity with name: %s", "VBANSenderEntity"))
-            return false;
+//        // Get VBANSender Entity
+//        mVBANSenderEntity = mScene->findEntity("VBANSenderEntity");
+//        if (!error.check(mVBANSenderEntity != nullptr, "unable to find entity with name: %s", "VBANSenderEntity"))
+//            return false;
 
         // Resize the vectors containing the results of the analysis
         mPlotReceiverValues.resize(512, 0);
@@ -112,60 +112,60 @@ namespace nap
         ImGui::PopID();
         ImGui::End();
 
-        ImGui::Begin("VBAN Sender");
-        ImGui::PushID("VBAN Sender");
+//        ImGui::Begin("VBAN Sender");
+//        ImGui::PushID("VBAN Sender");
 
-        auto& playback_component_instance = mVBANSenderEntity->getComponent<audio::PlaybackComponentInstance>();
-        auto& vban_stream_sender_component_instance = mVBANSenderEntity->getComponent<audio::VBANStreamSenderComponentInstance>();
+//        auto& playback_component_instance = mVBANSenderEntity->getComponent<audio::PlaybackComponentInstance>();
+//        auto& vban_stream_sender_component_instance = mVBANSenderEntity->getComponent<audio::VBANStreamSenderComponentInstance>();
         
-        auto* vban_stream_sender_component = vban_stream_sender_component_instance.getComponent<audio::VBANStreamSenderComponent>();
-        
-        vban_stream_sender_component_instance.setInput(playback_component_instance);
-        ImGui::Text("VBAN Sender");
+//        auto* vban_stream_sender_component = vban_stream_sender_component_instance.getComponent<audio::VBANStreamSenderComponent>();
+//        
+//        vban_stream_sender_component_instance.setInput(playback_component_instance);
+//        ImGui::Text("VBAN Sender");
+//
+//        ImGui::Text("Sending for VBAN packets to :");
+//        ImGui::SameLine();
+//        ImGui::TextColored(pallete.mHighlightColor3, "%s:%i",
+//                           vban_stream_sender_component->mUdpClient->mEndpoint.c_str(),
+//                           vban_stream_sender_component->mUdpClient->mPort);
+//
+//        ImGui::Text("Sending to stream:");
+//        ImGui::SameLine();
+//        ImGui::TextColored(pallete.mHighlightColor3, "%s", vban_stream_sender_component->mStreamName.c_str());
 
-        ImGui::Text("Sending for VBAN packets to :");
-        ImGui::SameLine();
-        ImGui::TextColored(pallete.mHighlightColor3, "%s:%i",
-                           vban_stream_sender_component->mUdpClient->mEndpoint.c_str(),
-                           vban_stream_sender_component->mUdpClient->mPort);
+//        bool play = playback_component_instance.isPlaying();
+//        if(ImGui::Checkbox("Play", &play))
+//        {
+//            if(play)
+//            {
+//                playback_component_instance.start(0);
+//            }else
+//            {
+//                playback_component_instance.stop();
+//            }
+//        }
+//
+//        ImGui::Spacing();
+//
+//        ImGui::Text("Sending Audio (Channel 0)");
 
-        ImGui::Text("Sending to stream:");
-        ImGui::SameLine();
-        ImGui::TextColored(pallete.mHighlightColor3, "%s", vban_stream_sender_component->mStreamName.c_str());
-
-        bool play = playback_component_instance.isPlaying();
-        if(ImGui::Checkbox("Play", &play))
-        {
-            if(play)
-            {
-                playback_component_instance.start(0);
-            }else
-            {
-                playback_component_instance.stop();
-            }
-        }
-
-        ImGui::Spacing();
-
-        ImGui::Text("Sending Audio (Channel 0)");
-
-        auto sender_level_meter = mVBANSenderEntity->findComponent<audio::LevelMeterComponentInstance>();
+//        auto sender_level_meter = mVBANSenderEntity->findComponent<audio::LevelMeterComponentInstance>();
 
         // Store new value in array
-        mPlotSenderValues[mSenderTickIdx] = sender_level_meter->getLevel();	// save new value so it can be subtracted later
-        if (++mSenderTickIdx == mPlotSenderValues.size())			// increment current sample index
-            mSenderTickIdx = 0;
+//        mPlotSenderValues[mSenderTickIdx] = sender_level_meter->getLevel();	// save new value so it can be subtracted later
+//        if (++mSenderTickIdx == mPlotSenderValues.size())			// increment current sample index
+//            mSenderTickIdx = 0;
 
-        ImGui::PlotHistogram("",
-                             mPlotSenderValues.data(),
-                             mPlotSenderValues.size(),
-                             mSenderTickIdx, nullptr, 0.0f, 0.2f,
-                             ImVec2(ImGui::GetColumnWidth(), 128)); // Plot the output values
-
-
-
-        ImGui::PopID();
-        ImGui::End();
+//        ImGui::PlotHistogram("",
+//                             mPlotSenderValues.data(),
+//                             mPlotSenderValues.size(),
+//                             mSenderTickIdx, nullptr, 0.0f, 0.2f,
+//                             ImVec2(ImGui::GetColumnWidth(), 128)); // Plot the output values
+//
+//
+//
+//        ImGui::PopID();
+//        ImGui::End();
 	}
 	
 	

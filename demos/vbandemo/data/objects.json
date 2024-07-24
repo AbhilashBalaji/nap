@@ -9,8 +9,8 @@
                     "mID": "VBANStreamPlayerComponent",
                     "VBANPacketReceiver": "VBANPacketReceiver",
                     "ChannelRouting": [
-                        0,
-                        1
+                        0
+                        
                     ],
                     "MaxBufferSize": 4096,
                     "StreamName": "vbandemo"
@@ -20,8 +20,7 @@
                     "mID": "AudioOutputComponent",
                     "Input": "./VBANStreamPlayerComponent",
                     "Routing": [
-                        0,
-                        1
+                        0
                     ]
                 },
                 {
@@ -108,10 +107,6 @@
             "Type": "nap::Scene",
             "mID": "Scene",
             "Entities": [
-                {
-                    "Entity": "VBANSenderEntity",
-                    "InstanceProperties": []
-                },
                 {
                     "Entity": "VBANReceiverEntity",
                     "InstanceProperties": []
