@@ -71,9 +71,9 @@ get_filename_component(parent_dir ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/data)
     set(dest ${BIN_DIR}/${parent_name}/${PROJECT_NAME})
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_CURRENT_SOURCE_DIR}/data
-        ${dest}/data)
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_CURRENT_SOURCE_DIR}/data
+            ${dest}/data)
     install(DIRECTORY ${dest}/data DESTINATION ${CMAKE_INSTALL_DATADIR}/${parent_name}/${PROJECT_NAME} OPTIONAL)
 endif()
 

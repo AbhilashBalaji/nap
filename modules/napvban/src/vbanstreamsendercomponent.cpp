@@ -11,7 +11,6 @@
 #include <entity.h>
 #include <audio/service/audioservice.h>
 #include <audio/node/outputnode.h>
-#include <audio/node/pullnode.h>
 
 RTTI_BEGIN_CLASS(nap::audio::VBANStreamSenderComponent)
 RTTI_PROPERTY("UdpClient", &nap::audio::VBANStreamSenderComponent::mUdpClient, nap::rtti::EPropertyMetaData::Required)
@@ -28,76 +27,53 @@ using namespace nap::audio;
 namespace nap
 {
 
-void VBANStreamSenderComponentInstance::onDestroy()
-{
-    mVBANSenderNode->setUDPClient(nullptr);
-}
+	void VBANStreamSenderComponentInstance::onDestroy()
+	{
+        mVBANSenderNode->setUDPClient(nullptr);
+	}
 
 
-bool VBANStreamSenderComponentInstance::init(utility::ErrorState& errorState)
-{
-    // acquire audio service and node manager
-    mAudioService = getEntityInstance()->getCore()->getService<AudioService>();
-    auto& nodeManager = mAudioService->getNodeManager();
-    
-    // acquire resources
-    auto* resource = getComponent<VBANStreamSenderComponent>();
-    auto& channelRouting = resource->mChannelRouting;
-    
-    // configure channel routing
-    if (channelRouting.empty())
-    {
-        for (auto channel = 0; channel < mInput->getChannelCount(); ++channel)
-            channelRouting.emplace_back(channel);
-    }
-    for (auto channel = 0; channel < channelRouting.size(); ++channel)
-    {
-        if (channelRouting[channel] >= mInput->getChannelCount())
+	bool VBANStreamSenderComponentInstance::init(utility::ErrorState& errorState)
+	{
+        // acquire audio service and node manager
+        auto audioService = getEntityInstance()->getCore()->getService<AudioService>();
+        auto& nodeManager = audioService->getNodeManager();
+
+        // acquire resources
+		auto* resource = getComponent<VBANStreamSenderComponent>();
+		auto& channelRouting = resource->mChannelRouting;
+
+        // configure channel routing
+		if (channelRouting.empty())
+		{
+			for (auto channel = 0; channel < mInput->getChannelCount(); ++channel)
+                channelRouting.emplace_back(channel);
+		}
+		for (auto channel = 0; channel < channelRouting.size(); ++channel)
         {
-            errorState.fail("%s: Trying to route input channel that is out of bounds.", resource->mID.c_str());
-            return false;
+            if (channelRouting[channel] >= mInput->getChannelCount())
+            {
+                errorState.fail("%s: Trying to route input channel that is out of bounds.", resource->mID.c_str());
+                return false;
+            }
         }
-    }
-    
-    // Create the VBAN sender node
-    mVBANSenderNode = nodeManager.makeSafe<VBANSenderNode>(nodeManager);
-    mVBANSenderNode->setStreamName(resource->mStreamName);
-    mVBANSenderNode->setUDPClient(resource->mUdpClient.get());
-    
-    // Connect outputs to VBAN sender node
-    for (auto channel = 0; channel < channelRouting.size(); ++channel)
-    {
-        if (channelRouting[channel] < 0)
-            continue;
-        
-        mVBANSenderNode->inputs.connect(*mInput->getOutputForChannel(channelRouting[channel]));
-        //            mVBANSenderNode->mOutputs
-    }
-    
-    
-    return true;
-}
 
-void VBANStreamSenderComponentInstance::setInput(AudioComponentBaseInstance &input)
-{
-//    auto* nodeManager = getComponent<VBANSenderNode>();
-    auto* resource = getComponent<VBANStreamSenderComponent>();
-    
-    auto& channelRouting = resource->mChannelRouting;
-    
-    auto channelCount = channelRouting.size();
-    AudioComponentBaseInstance* inputPtr = &input;
-    for (auto channel = 0; channel < channelCount; ++channel)
-    {
-       
-        int inputChannel = channelRouting[channel] % inputPtr->getChannelCount();
-        auto inputPtr = &input;
-        mAudioService->enqueueTask([&, inputPtr]() {
-            mVBANSenderNode->inputs.connect(*mInput->getOutputForChannel(channelRouting[channel]));
-        });
-    }
-    mVBANSenderNode->sampleRateChanged(48000.0);
-}
+        // Create the VBAN sender node
+        mVBANSenderNode = nodeManager.makeSafe<VBANSenderNode>(nodeManager);
+        mVBANSenderNode->setStreamName(resource->mStreamName);
+        mVBANSenderNode->setUDPClient(resource->mUdpClient.get());
+
+        // Connect outputs to VBAN sender node
+		for (auto channel = 0; channel < channelRouting.size(); ++channel)
+		{
+			if (channelRouting[channel] < 0)
+				continue;
+
+			mVBANSenderNode->inputs.connect(*mInput->getOutputForChannel(channelRouting[channel]));
+		}
+
+		return true;
+	}
+
 
 }
-

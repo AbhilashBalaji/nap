@@ -52,8 +52,8 @@ namespace nap
 			// Properties
 			ResourcePtr<VBANPacketReceiver> mVBANPacketReceiver = nullptr; ///< Property: "VBANPacketReceiver" the packet receiver
 			std::vector<int> mChannelRouting = { }; ///< Property: "ChannelRouting" the channel routing, must be equal to excpected channels from stream
-			int mMaxBufferSize = 512; ///< Property: "MaxBufferSize" the max buffer size in samples. Keep this as low as possible to ensure the lowest possible latency
-			std::string mStreamName = "TEST_STREAM"; ///< Property: "StreamName" the VBAN stream to listen to
+			int mMaxBufferSize = 4096; ///< Property: "MaxBufferSize" the max buffer size in samples. Keep this as low as possible to ensure the lowest possible latency
+			std::string mStreamName; ///< Property: "StreamName" the VBAN stream to listen to
 		public:
 		};
 
@@ -93,6 +93,7 @@ namespace nap
 			 * @return amount of channels
 			 */
 			int getChannelCount() const override { return mBufferPlayers.size(); }
+            int getPortNumber() const  {return mVbanListener->mServer->mPort;}
 
             /**
              * Returns output pin for given channel, no bound checking, assert on out of bound

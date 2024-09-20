@@ -4,8 +4,7 @@
 
 #pragma once
 
-//#include "udpclient.h"
-#include <arpa/inet.h>
+#include "udpclient.h"
 #include "vbansendernode.h"
 
 // Nap includes
@@ -47,20 +46,18 @@ namespace nap
          * The instance of the VBANStreamSenderComponent, implements the DynamicProcessorNode::IProcessor interface
          */
 		class NAPAPI VBANStreamSenderComponentInstance : public AudioComponentBaseInstance
-    {
-        RTTI_ENABLE(AudioComponentBaseInstance)
-    public:
-        /**
-         * Constructor
-         * @param entity entity
-         * @param resource resource
-         */
-        VBANStreamSenderComponentInstance(EntityInstance& entity, Component& resource)
-        : AudioComponentBaseInstance(entity, resource)
-        {
-        }
-        
-        void setInput(AudioComponentBaseInstance& input);
+		{
+			RTTI_ENABLE(AudioComponentBaseInstance)
+		public:
+            /**
+             * Constructor
+             * @param entity entity
+             * @param resource resource
+             */
+			VBANStreamSenderComponentInstance(EntityInstance& entity, Component& resource)
+				: AudioComponentBaseInstance(entity, resource)
+			{
+			}
 
             /**
              * Initializes the instance, returns false on failure
@@ -91,7 +88,6 @@ namespace nap
 		private:
 			ComponentInstancePtr<audio::AudioComponentBase> mInput	= {this, &VBANStreamSenderComponent::mInput};
 			audio::SafeOwner<audio::VBANSenderNode> mVBANSenderNode = nullptr;
-            AudioService* mAudioService = nullptr;
 		};
 	}
 }

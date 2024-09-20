@@ -33,7 +33,6 @@ namespace nap
 
         public:
 			VBANSenderNode(NodeManager& nodeManager);
-            uint8_t mSampleRateFormat = 0;
 
 			virtual ~VBANSenderNode();
 
@@ -45,16 +44,15 @@ namespace nap
             void setUDPClient(UDPClient* client) { getNodeManager().enqueueTask([&, client](){ mUDPClient = client; }); }
             void setStreamName(const std::string& name) { getNodeManager().enqueueTask([&, name](){ mStreamName = name; }); }
 
-            void sampleRateChanged(float) override;
-
-        private:
+		private:
             void setChannelCount(int channelCount);
             int getChannelCount() const { return mChannelCount; }
             void processBuffer(const SampleBuffer& buffer, int channel);
 
             // Inherited from Node
             void process() override;
-     
+            void sampleRateChanged(float) override;
+
             std::vector<std::vector<audio::SampleValue>*> mInputPullResult;
             int mChannelCount = 0;
             int mPacketChannelSize = 0;
@@ -64,7 +62,7 @@ namespace nap
 
             size_t mPacketSize = 0;
             uint32_t mFrameCounter = 0;
-        
+            uint8_t mSampleRateFormat = 0;
             std::string mStreamName;
             UDPClient* mUDPClient = nullptr;
 		};

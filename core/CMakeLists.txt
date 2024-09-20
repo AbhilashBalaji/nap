@@ -48,7 +48,9 @@ elseif(UNIX)
                 src/nap/native/logger_ext.cpp
                 src/nap/native/core_ext.cpp
                 src/nap/native/resourcemanager_ext.cpp
-                )
+            ../modules/napvban/src/vbanUDPServer/vbanudpserver.cpp
+            ../modules/napvban/src/vbanUDPServer/vbanudpserver.h
+    )
 endif()
 
 set_target_properties(${PROJECT_NAME} PROPERTIES INSTALL_RPATH "$ORIGIN")
